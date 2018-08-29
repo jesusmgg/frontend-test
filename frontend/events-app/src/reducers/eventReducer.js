@@ -5,7 +5,15 @@ const eventReducer = (state = [], action) => {
         case ADD_EVENT:
             return [
                 ...state,
-                action.event];
+                {
+                    id: action.event.id,
+                    title: action.event.title,
+                    eventImage: action.event.eventImage,
+                    description: action.event.description,
+                    dates: action.event.dates,
+                    location: action.event.location
+                }
+            ];
 
         default:
             return state;

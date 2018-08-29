@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 
-import { Container, Row, Col, Button } from 'reactstrap';
+import {Container, Row, Col, Button, CardDeck} from 'reactstrap';
 
 import { Icon } from 'react-icons-kit'
 import {plusCircle} from 'react-icons-kit/fa/plusCircle'
@@ -10,10 +10,12 @@ import EventCard from "./EventCard";
 import EventFeatured from "./EventFeatured";
 
 const mapStateToProps = state => {
-    return {articles: state.articles};
+    return {
+        events: state.events
+    };
 };
 
-class ConnectedEventCard extends Component {
+class ConnectedEventList extends Component {
     constructor() {
         super();
         this.state = {
@@ -26,18 +28,14 @@ class ConnectedEventCard extends Component {
                 <Row>
                     <Col sm="8">
                         <Row>
-                            <Col sm="6">
-                                <EventCard/>
-                            </Col>
-                            <Col sm="6">
-                                <EventCard/>
-                            </Col>
-                            <Col sm="6">
-                                <EventCard/>
-                            </Col>
-                            <Col sm="6">
-                                <EventCard/>
-                            </Col>
+                            {this.props.events.map(event =>
+                                <Col sm="6">
+                                    <EventCard
+                                        key={event.id}
+                                        {...event}
+                                    />
+                                </Col>
+                            )}
                         </Row>
                     </Col>
 
@@ -61,6 +59,6 @@ class ConnectedEventCard extends Component {
     }
 }
 
-const EventCart = connect(mapStateToProps)(ConnectedEventCard);
+const EventList = connect(mapStateToProps)(ConnectedEventList);
 
-export default EventCart;
+export default EventList;
