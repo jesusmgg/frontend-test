@@ -17,7 +17,7 @@ class ConnectedEventFeatured extends Component {
     render() {
         return (
             <Media className="mb-4">
-                <Media left href="#">
+                <Media left href="#" className="pr-2">
                     <Media object src="https://via.placeholder.com/64x64" alt="Generic placeholder image" />
                 </Media>
                 <Media body>
@@ -25,6 +25,9 @@ class ConnectedEventFeatured extends Component {
                         <h5>Event Name <small>Jul 20 @ 19:30</small></h5>
                     </Media>
                     This is the event description.
+                    <Media bottom>
+                        <small className="float-right">Theatre X</small>
+                    </Media>
                 </Media>
             </Media>
         );

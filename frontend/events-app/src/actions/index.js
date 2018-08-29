@@ -1,3 +1,3 @@
-import {ADD_ARTICLE} from "../constants/action-types";
+import {ADD_EVENT} from "../constants/action-types";
 
-export const addArticle = article => ({type: ADD_ARTICLE, payload: article});
+export const addEvent = event => ({type: ADD_EVENT, event: event});

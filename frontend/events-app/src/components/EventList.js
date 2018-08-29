@@ -1,7 +1,10 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row, Col, Button } from 'reactstrap';
+
+import { Icon } from 'react-icons-kit'
+import {plusCircle} from 'react-icons-kit/fa/plusCircle'
 
 import EventCard from "./EventCard";
 import EventFeatured from "./EventFeatured";
@@ -51,6 +54,8 @@ class ConnectedEventCard extends Component {
                         </Row>
                     </Col>
                 </Row>
+
+                <Button color="link" className="float-right"><Icon size={64} icon={plusCircle}/></Button>
             </Container>
         );
     }
