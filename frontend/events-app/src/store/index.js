@@ -1,5 +1,6 @@
-import {createStore} from "redux";
+import {applyMiddleware, compose, createStore} from "redux";
 import rootReducer from "../reducers/index";
+import thunk from "redux-thunk";
 
 const initialState = {
     ui: {
@@ -52,6 +53,10 @@ const initialState = {
 const store = createStore(
     rootReducer,
     initialState,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+    compose(
+        applyMiddleware(thunk),
+        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    )
+);
 
 export default store;
