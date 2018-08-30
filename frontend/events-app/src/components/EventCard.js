@@ -17,8 +17,16 @@ import {
 import {Icon} from 'react-icons-kit'
 import {twitter} from 'react-icons-kit/fa/twitter'
 import {shareAlt} from 'react-icons-kit/fa/shareAlt'
+import {showEventDetail} from "../actions";
+import connect from "react-redux/es/connect/connect";
 
-class EventCard extends Component {
+function mapDispatchToProps(dispatch) {
+    return {
+        onViewClicked: (event) => dispatch(showEventDetail(event)),
+    }
+}
+
+class ConnectedEventCard extends Component {
     constructor() {
         super();
         this.state = {
@@ -26,6 +34,7 @@ class EventCard extends Component {
         };
 
         this.toggleShareDropdown = this.toggleShareDropdown.bind(this);
+        this.handleOnViewClicked = this.handleOnViewClicked.bind(this);
     }
 
     toggleShareDropdown() {
@@ -34,18 +43,22 @@ class EventCard extends Component {
         });
     }
 
+    handleOnViewClicked() {
+        this.props.onViewClicked(this.props.event);
+    }
+
     render() {
         return (
             <div className="mb-4">
                 <Card inverse>
                     <CardImg width="100%"
-                             src={this.props.eventImage}
-                             alt={this.props.title}/>
+                             src={this.props.event.eventImage}
+                             alt={this.props.event.title}/>
 
                     <CardImgOverlay className="p-2 pl-3 d-flex flex-column justify-content-between">
                         <div className="m-0 p-0">
                             <CardText>
-                                <small>{this.props.dates[0]}</small>
+                                <small>{this.props.event.dates[0]}</small>
                                 <ButtonDropdown className="float-right" isOpen={this.state.shareDropdownOpen}
                                                 toggle={this.toggleShareDropdown}>
                                     <DropdownToggle className="m-0 p-0" color="link">
@@ -63,12 +76,12 @@ class EventCard extends Component {
 
                         <div className="justify-content-end">
                             <CardTitle className="p-0">
-                                <h3> {this.props.title} </h3>
+                                <h3> {this.props.event.title} </h3>
                                 <hr className="mt-2 mb-0"/>
                             </CardTitle>
 
                             <CardLink className="p-0">
-                                <Button size="sm">View</Button>
+                                <Button onClick={this.handleOnViewClicked} size="sm">View</Button>
                             </CardLink>
                         </div>
                     </CardImgOverlay>
@@ -77,5 +90,7 @@ class EventCard extends Component {
         );
     }
 }
+
+const EventCard = connect(null, mapDispatchToProps)(ConnectedEventCard);
 
 export default EventCard;

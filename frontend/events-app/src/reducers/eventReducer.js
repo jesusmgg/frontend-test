@@ -11,7 +11,8 @@ const eventReducer = (state = [], action) => {
                     eventImage: action.event.eventImage,
                     description: action.event.description,
                     dates: action.event.dates,
-                    location: action.event.location
+                    location: action.event.location,
+                    featured: false
                 }
             ];
 

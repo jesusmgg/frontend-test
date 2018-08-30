@@ -2,6 +2,14 @@ import {createStore} from "redux";
 import rootReducer from "../reducers/index";
 
 const initialState = {
+    ui: {
+        showHome: true,
+        showEventDetail: false,
+        showBackButton: false,
+
+        selectedEvent: null
+    },
+
     events: [
         {
             id: 1,
@@ -16,11 +24,12 @@ const initialState = {
                 "07/31/2015 13:00",
                 "07/1/2015 13:00"
             ],
-            location: "Auditorio del SODRE"
+            location: "Auditorio del SODRE",
+            featured: false
         },
         {
             id: 2,
-            title: "IGDA Meetup #2018.05",
+            title: "IGDA Meetup",
             eventImage: "https://pbs.twimg.com/media/DkkkYErXsAAUmId.jpg",
             description: "¿Querés conocer a otros desarrolladores de videojuegos del país? ¿Querés compartir tus creaciones con otras personas que también les gusta crear videojuegos? ¿Intercambiar experiencias? ¿Conocer el trabajo de otros? ¿O simplemente tenes curiosidad?\n" +
                 "\n" +
@@ -33,9 +42,11 @@ const initialState = {
             dates: [
                 "08/15/2018 19:00",
             ],
-            location: "Puerto de Asunción"
+            location: "Puerto de Asunción",
+            featured: true
         }
-    ]
+    ],
+
 };
 
 const store = createStore(
