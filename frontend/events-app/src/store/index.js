@@ -6,6 +6,7 @@ const initialState = {
     ui: {
         showHome: true,
         showEventDetail: false,
+        showEventForm: false,
         showBackButton: false,
 
         selectedEvent: null
