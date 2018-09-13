@@ -17,7 +17,7 @@ import {
 import {Icon} from 'react-icons-kit'
 import {twitter} from 'react-icons-kit/fa/twitter'
 import {shareAlt} from 'react-icons-kit/fa/shareAlt'
-import {showEventDetail} from "../actions";
+import {showEventDetail} from "../actions/ui";
 import connect from "react-redux/es/connect/connect";
 
 function mapDispatchToProps(dispatch) {
@@ -48,6 +48,8 @@ class ConnectedEventCard extends Component {
     }
 
     render() {
+        const tweetText = "I'm going to " + this.props.event.title + " @ " + this.props.event.dates[0];
+
         return (
             <div className="mb-4">
                 <Card inverse>
@@ -65,7 +67,8 @@ class ConnectedEventCard extends Component {
                                         <Icon size={24} icon={shareAlt}/>
                                     </DropdownToggle>
                                     <DropdownMenu right>
-                                        <DropdownItem className="pl-2 pr-2 pt-1 pb-1 text-primary">
+                                        <DropdownItem className="pl-2 pr-2 pt-1 pb-1 text-primary twitter-share-button"
+                                                      href={"https://twitter.com/intent/tweet?text=" + tweetText}>
                                             <Icon className="align-middle pr-2" size={24} icon={twitter}/> Tweet this
                                             event
                                         </DropdownItem>

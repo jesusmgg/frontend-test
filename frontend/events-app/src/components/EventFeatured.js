@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 
 import { Media } from 'reactstrap';
-import {showEventDetail} from "../actions";
+import {showEventDetail} from "../actions/ui";
 
 function mapDispatchToProps(dispatch) {
     return {

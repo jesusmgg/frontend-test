@@ -1,9 +1,14 @@
-import {SHOW_EVENT_DETAIL, SHOW_EVENT_FORM, SHOW_HOME} from "../constants/action-types";
+import {
+    SHOW_EVENT_DETAIL,
+    SHOW_EVENT_FORM,
+    SHOW_HOME
+} from "../constants/action-types";
 
 const uiReducer = (state = {}, action) => {
     switch (action.type) {
         case SHOW_EVENT_DETAIL:
             return {
+                ...state,
                 showHome: false,
                 showEventDetail: true,
                 showEventForm: false,
@@ -14,6 +19,7 @@ const uiReducer = (state = {}, action) => {
 
         case SHOW_EVENT_FORM:
             return {
+                ...state,
                 showHome: false,
                 showEventDetail: false,
                 showEventForm: true,
@@ -24,6 +30,7 @@ const uiReducer = (state = {}, action) => {
 
         case SHOW_HOME:
             return {
+                ...state,
                 showHome: true,
                 showEventDetail: false,
                 showEventForm: false,

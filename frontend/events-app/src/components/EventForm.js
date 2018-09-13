@@ -5,24 +5,107 @@ import {Container, Row, Col, Button, Table, Form, FormGroup, Label, Input} from 
 
 import {Icon} from 'react-icons-kit'
 import {save} from 'react-icons-kit/fa/save'
+import {addEvent, fetchAllEvents, fetchFeaturedEvents} from "../actions/event";
+import {showHome} from "../actions/ui";
 
+
+function mapDispatchToProps(dispatch) {
+    return {
+        addEvent: (event) => dispatch(addEvent(event)),
+        fetchAllEvents: () => dispatch(fetchAllEvents()),
+        fetchFeaturedEvents: () => dispatch(fetchFeaturedEvents()),
+        showHome: () => dispatch(showHome())
+    }
+}
 
 class ConnectedEventForm extends Component {
     constructor() {
         super();
-        this.state = {};
+        this.state = {
+            title: "",
+            description: "",
+            imageURL: "",
+            location: "",
+            dates: []
+        };
+
+        this.handleTitleChange = this.handleTitleChange.bind(this);
+        this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
+        this.handleImageURLChange = this.handleImageURLChange.bind(this);
+        this.handleLocationChange = this.handleLocationChange.bind(this);
+        this.handleDateChange = this.handleDateChange.bind(this);
+
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleTitleChange(event) {
+        this.setState({title: event.target.value});
+    }
+
+    handleDescriptionChange(event) {
+        this.setState({description: event.target.value});
+    }
+
+    handleImageURLChange(event) {
+        this.setState({imageURL: event.target.value});
+    }
+
+    handleLocationChange(event) {
+        this.setState({location: event.target.value});
+    }
+
+    handleDateChange(event, index) {
+        let dates = this.state.dates;
+        dates[index] = event.target.value;
+
+        this.setState({dates: dates});
+    }
+
+    handleSubmit(event) {
+        console.log("TEST");
+        let request = {
+            "event": {
+                "title": this.state.title,
+                "eventImage": this.state.imageURL,
+                "description": this.state.description,
+                "dates": this.state.dates,
+                "location": this.state.location
+            }
+        };
+
+        console.log(request);
+
+        this.props.addEvent(request);
+
+        event.preventDefault();
+
+        //this.props.fetchAllEvents();
+        //this.props.fetchFeaturedEvents();
+        this.props.showHome();
+    }
+
+    componentDidMount() {
+        // Initialize dates array
+        let dates = Array(6);
+        for (let i = 0; i < 6; i++) {
+            dates[i] = ""
+        }
+        this.setState({dates: dates});
     }
 
     render() {
         return (
-            <Form>
+            <Form onSubmit={this.handleSubmit}>
                 <Row>
                     <Col sm={8}>
                         <FormGroup>
-                            <Input type="text" size="lg" name="title" id="title" placeholder="Event Title"/>
+                            <Input type="text" bsSize="lg" name="title" id="title" value={this.state.title}
+                                   onChange={this.handleTitleChange} placeholder="Event Title"/>
                         </FormGroup>
                         <FormGroup>
                             <Input type="textarea" rows="20" name="description" id="description"
+                                   value={this.state.description}
+                                   onChange={this.handleDescriptionChange}
                                    placeholder="Event Description"/>
                         </FormGroup>
                     </Col>
@@ -31,12 +114,14 @@ class ConnectedEventForm extends Component {
                             <Col>
                                 <FormGroup>
                                     <Label for="image">Image URL</Label>
-                                    <Input type="url" name="image" id="image"
+                                    <Input type="url" name="image" id="image" value={this.state.imageURL}
+                                           onChange={this.handleImageURLChange}
                                            placeholder="http://www.example.com/image.jpg"/>
                                 </FormGroup>
                                 <FormGroup>
                                     <Label for="location">Location</Label>
-                                    <Input type="text" name="location" id="location" placeholder=""/>
+                                    <Input type="text" name="location" id="location" value={this.state.location}
+                                           onChange={this.handleLocationChange}/>
                                 </FormGroup>
                             </Col>
                         </Row>
@@ -50,13 +135,16 @@ class ConnectedEventForm extends Component {
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {[...Array(6)].map((x, i) =>
+                                    {this.state.dates.map((x, i) =>
                                         <tr>
                                             <td><FormGroup>
-                                                <Input type="datetime-local" name="date" id="date" placeholder=""/>
+                                                <Input type="datetime-local" name={"date-" + i} id={"date-" + i}
+                                                       value={this.state.dates[i]}
+                                                       onChange={(event) => this.handleDateChange(event, i)}
+                                                       placeholder=""/>
                                             </FormGroup></td>
                                             <td><FormGroup>
-                                                <Input type="text" name={"price-" + i} id="price" placeholder=""/>
+
                                             </FormGroup></td>
                                         </tr>
                                     )}
@@ -74,6 +162,6 @@ class ConnectedEventForm extends Component {
     }
 }
 
-const EventForm = connect()(ConnectedEventForm);
+const EventForm = connect(null, mapDispatchToProps)(ConnectedEventForm);
 
 export default EventForm;

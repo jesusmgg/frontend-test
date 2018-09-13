@@ -9,13 +9,14 @@ import {plusCircle} from 'react-icons-kit/fa/plusCircle'
 import EventCard from "./EventCard";
 import EventFeatured from "./EventFeatured";
 import EventDetail from "./EventDetail";
-import {showEventDetail, showEventForm, showHome} from "../actions";
+import {showEventDetail, showEventForm, showHome} from "../actions/ui";
 import EventForm from "./EventForm";
+import {fetchAllEvents, fetchFeaturedEvents} from "../actions/event";
 
 const mapStateToProps = state => {
     return {
         events: state.events,
-        eventsFeatured: state.eventsFeatured,
+        featuredEvents: state.featuredEvents,
 
         showHome: state.ui.showHome,
         showEventDetail: state.ui.showEventDetail,
@@ -26,6 +27,8 @@ const mapStateToProps = state => {
 function mapDispatchToProps(dispatch) {
     return {
         onAddEventClicked: () => dispatch(showEventForm()),
+        fetchAllEvents: () => dispatch(fetchAllEvents()),
+        fetchFeaturedEvents: () => dispatch(fetchFeaturedEvents())
     }
 }
 
@@ -35,6 +38,11 @@ class ConnectedEventList extends Component {
         this.state = {};
     }
 
+    componentDidMount() {
+        this.props.fetchAllEvents();
+        this.props.fetchFeaturedEvents();
+    }
+
     render() {
         return (
             <Container>
@@ -42,7 +50,7 @@ class ConnectedEventList extends Component {
                 <Row>
                     <Col sm="8">
                         <Row>
-                            {this.props.events.map(event =>
+                            {this.props.events.items.map(event =>
                                 <Col sm="6">
                                     <EventCard
                                         key={event.id}
@@ -58,7 +66,7 @@ class ConnectedEventList extends Component {
                         <hr/>
                         <Row>
                             <Col sm="12">
-                                {this.props.events.filter(event => (event.featured)).map(event =>
+                                {this.props.featuredEvents.items.map(event =>
                                     <EventFeatured
                                         key={event.id}
                                         event={event}
