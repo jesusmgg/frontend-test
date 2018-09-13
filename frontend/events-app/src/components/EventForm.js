@@ -79,8 +79,8 @@ class ConnectedEventForm extends Component {
 
         event.preventDefault();
 
-        //this.props.fetchAllEvents();
-        //this.props.fetchFeaturedEvents();
+        setTimeout(this.props.fetchAllEvents, 500);
+        setTimeout(this.props.fetchFeaturedEvents(), 500);
         this.props.showHome();
     }
 
