@@ -1,20 +1,34 @@
-import {ADD_EVENT} from "../constants/action-types";
+import {
+    ADD_EVENT_SUCCESS,
+    FETCH_ALL_EVENTS_FAILURE,
+    FETCH_ALL_EVENTS_REQUEST,
+    FETCH_ALL_EVENTS_SUCCESS
+} from "../constants/action-types";
+import {fetchAllEvents, fetchFeaturedEvents} from "../actions/event";
 
 const eventReducer = (state = [], action) => {
     switch (action.type) {
-        case ADD_EVENT:
-            return [
+        case FETCH_ALL_EVENTS_REQUEST:
+            return {
                 ...state,
-                {
-                    id: action.event.id,
-                    title: action.event.title,
-                    eventImage: action.event.eventImage,
-                    description: action.event.description,
-                    dates: action.event.dates,
-                    location: action.event.location,
-                    featured: false
-                }
-            ];
+                isFetching: true
+            };
+
+        case FETCH_ALL_EVENTS_SUCCESS:
+            return {
+                ...state,
+                isFetching: false,
+                items: action.response.events
+            };
+
+        case FETCH_ALL_EVENTS_FAILURE:
+            return {
+                ...state,
+                isFetching: false
+            };
+
+        case ADD_EVENT_SUCCESS:
+            return state;
 
         default:
             return state;

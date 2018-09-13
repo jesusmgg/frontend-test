@@ -7,7 +7,8 @@ import {arrowCircleLeft} from 'react-icons-kit/fa/arrowCircleLeft'
 
 import EventList from "./EventList";
 import connect from "react-redux/es/connect/connect";
-import {showEventDetail, showHome} from "../actions";
+import {showEventDetail, showEventForm, showHome} from "../actions/ui";
+import {fetchAllEvents, fetchFeaturedEvents} from "../actions/event";
 
 const mapStateToProps = state => {
     return {
@@ -17,7 +18,9 @@ const mapStateToProps = state => {
 
 function mapDispatchToProps(dispatch) {
     return {
-        onBackClicked: () => dispatch(showHome()),
+        fetchAllEvents: () => dispatch(fetchAllEvents()),
+        fetchFeaturedEvents: () => dispatch(fetchAllEvents()),
+        showHome: () => dispatch(showHome())
     }
 }
 
@@ -25,6 +28,18 @@ class ConnectedApp extends Component {
     constructor() {
         super();
         this.state = {};
+
+        this.onBackClicked = this.onBackClicked.bind(this);
+    }
+
+    onBackClicked() {
+        this.props.fetchAllEvents();
+        this.props.fetchFeaturedEvents();
+        this.props.showHome();
+    }
+
+    componentDidMount() {
+        document.title = "Events"
     }
 
     render() {
@@ -34,7 +49,7 @@ class ConnectedApp extends Component {
                     <Col>
                         <h1>
                             {this.props.showBackButton &&
-                                <Button onClick={this.props.onBackClicked} color="link">
+                                <Button onClick={this.onBackClicked} color="link">
                                     <Icon size={48} icon={arrowCircleLeft}/>
                                 </Button>
                             }
